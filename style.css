@@ -1,7 +1,17 @@
+* {
+    font-family: Arial;
+}
+
+h1 {
+    font-weight: bold;
+}
+
 body {
     margin: 0;
-    padding: 0;
-    background-color: blue;
-    width: 200px;
-    height: 200px;
+    padding: 8px;
+    background-color: #e0fffc;
+}
+
+.link {
+    display: block;
 }
