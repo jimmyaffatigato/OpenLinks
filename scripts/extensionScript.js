@@ -1,6 +1,7 @@
 const goButton = document.getElementById("goButton");
 const patternInput = document.getElementById("patternInput");
 const useRegex = document.getElementById("useRegex");
+const caseSensitive = document.getElementById("caseSensitive");
 
 const listenForClicks = () => {
     const reportError = (error) => {
@@ -12,6 +13,7 @@ const listenForClicks = () => {
                 command: "openLinks",
                 pattern: patternInput.value,
                 useRegex: useRegex.checked,
+                caseSensitive: caseSensitive.checked,
             });
         }
         browser.tabs
@@ -25,6 +27,7 @@ const listenForClicks = () => {
                 command: "getLinks",
                 pattern: patternInput.value,
                 useRegex: useRegex.checked,
+                caseSensitive: caseSensitive.checked,
             });
         }
         browser.tabs
@@ -34,14 +37,11 @@ const listenForClicks = () => {
     };
     patternInput.addEventListener("input", pollLinks);
     useRegex.addEventListener("change", pollLinks);
-};
-const reportExecuteScriptError = (error) => {
-    console.error(`Failed to execute content script: ${error.message}`);
+    caseSensitive.addEventListener("change", pollLinks);
 };
 browser.tabs
     .executeScript({ file: "scripts/openLinks.js" })
-    .then(listenForClicks)
-    .catch(reportExecuteScriptError);
+    .then(listenForClicks);
 
 browser.runtime.onMessage.addListener((message) => {
     if (message.command === "links") {

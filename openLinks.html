@@ -5,16 +5,19 @@
     </head>
     <body>
         <h1>OpenLinks</h1>
-        <input id="patternInput" />
-        <button id="goButton">Go</button>
+        <label>
+            Filter:
+            <input id="patternInput" />
+        </label>
         <label>
             <input id="useRegex" type="checkbox" />
             Use Regex
         </label>
         <label>
             <input id="caseSensitive" type="checkbox" />
-            Case Sensitive
-        </label>
+            Case Sensitive </label
+        ><br />
+        <button id="goButton">Open All</button>
         <p id="linkCount">Found 0 links</p>
         <div id="links"></div>
     </body>
