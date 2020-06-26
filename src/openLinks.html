@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>OpenLinks</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div id="openLinks">
+            <div id="topBar">
+                <div id="topLeft">
+                    <img src="icons/links.svg" />
+                    <button id="goButton">
+                        OpenLinks
+                    </button>
+                </div>
+            </div>
+            <div id="filter">
+                <label>
+                    Filter:
+                    <input id="patternInput" />
+                </label>
+                <label>
+                    <input id="useRegex" type="checkbox" />
+                    Use Regex
+                </label>
+                <label>
+                    <input id="caseSensitive" type="checkbox" />
+                    Case Sensitive
+                </label>
+            </div>
+            <div id="linkList">
+                <p id="linkCount">Found 0 links</p>
+                <div id="links"></div>
+            </div>
+        </div>
+    </body>
+    <script src="scripts/extensionScript.js"></script>
+</html>

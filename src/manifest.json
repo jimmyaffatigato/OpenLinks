@@ -1,16 +1,16 @@
 {
   "manifest_version": 2,
   "name": "OpenLinks",
-  "version": "1.0.1",
+  "version": "1.0.2",
 
   "description": "Opens a lot of links at once.",
   "homepage_url": "https://github.com/jimmyaffatigato/OpenLinks",
   "icons": {
-    "48": "icons/links-icon-48.png"
+    "48": "../icons/links-icon-48.png"
   },
   "permissions": ["activeTab"],
   "browser_action": {
-    "default_icon": "icons/links-icon-32.png",
+    "default_icon": "../icons/links-icon-32.png",
     "default_title": "OpenLinks",
     "default_popup": "openLinks.html"
   }
