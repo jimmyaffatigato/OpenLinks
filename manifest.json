@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "OpenLinks",
-  "version": "1.0",
+  "version": "1.0.1",
 
   "description": "Opens a lot of links at once.",
   "homepage_url": "https://github.com/jimmyaffatigato/OpenLinks",
