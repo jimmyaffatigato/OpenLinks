@@ -18,48 +18,16 @@
         });
     };
 
-    const openLinks = (links) => {
-        links.forEach((link) => {
-            window.open(link, "_blank");
-        });
-    };
-
     browser.runtime.onMessage.addListener((message) => {
-        if (message.command === "getLinks") {
-            if (message.useRegex) {
-                browser.runtime.sendMessage({
-                    command: "links",
-                    links: getLinks(
-                        new RegExp(message.pattern),
-                        message.caseSensitive
-                    ),
-                });
-            } else {
-                browser.runtime.sendMessage({
-                    command: "links",
-                    links: getLinks(message.pattern, message.caseSensitive),
-                });
-            }
-        }
-        if (message.command === "openLinks") {
-            if (message.pattern != "") {
-                if (message.useRegex) {
-                    openLinks(
-                        getLinks(
-                            new RegExp(message.pattern),
-                            message.caseSensitive
-                        )
-                    );
-                    console.log(
-                        `Opening all links matching RegEx: /${message.pattern}/.`
-                    );
-                } else {
-                    openLinks(getLinks(message.pattern, message.caseSensitive));
-                    console.log(
-                        `Opening all links matching string: ${message.pattern}.`
-                    );
-                }
-            }
+        const { command, pattern, useRegex, caseSensitive } = message;
+        if (command === "getLinks") {
+            browser.runtime.sendMessage({
+                command: "links",
+                links: getLinks(
+                    useRegex ? new RegExp(pattern) : pattern,
+                    caseSensitive
+                ),
+            });
         }
     });
 
