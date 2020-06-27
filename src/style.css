@@ -2,17 +2,12 @@
     font-family: Arial;
 }
 
-html {
-    overflow-x: hidden;
-}
-
 h1 {
     font-weight: bold;
 }
 
 body {
-    width: 600px;
-    min-height: 600px;
+    width: 400px;
     margin: 0;
     padding: 0;
     background-color: white;
@@ -24,7 +19,6 @@ body {
 }
 
 #topBar {
-    max-width: 600px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -37,21 +31,21 @@ body {
     align-items: center;
 }
 
-#topRight {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    padding-right: 48px;
+#logo {
+    width: 10vw;
 }
 
 #goButton {
-    background-color: gray;
+    background-color: #555555;
     color: white;
-    max-width: 200px;
-    height: 75px;
-    font-size: 24px;
-    border-color: black;
-    border-style: solid;
+    height: 10vw;
+    font-size: 2em;
+    border-style: none;
+}
+
+#version {
+    color: white;
+    text-decoration: none;
 }
 
 #filter {
@@ -61,12 +55,28 @@ body {
     padding: 10px;
 }
 
-#linkList {
-    padding-left: 48px;
-    max-width: 600px;
+#filterInput {
+    width: 100px;
+}
+
+#filterSettings {
+    display: flex;
+    flex-direction: column;
+}
+
+#linkCount {
+    padding-left: calc(48px - 2em);
+}
+
+#links {
+    max-height: 300px;
     overflow-x: hidden;
+    overflow-y: auto;
+    resize: vertical;
 }
 
 .link {
+    text-indent: -2em;
+    padding-left: 48px;
     display: block;
 }

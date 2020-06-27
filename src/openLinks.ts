@@ -1,26 +1,32 @@
 interface FilterSettings {
     pattern: string;
     useRegex: boolean;
-    caseSensitive: boolean;
+    ignoreCase: boolean;
+    removeDuplicates: boolean;
 }
 
 (() => {
-    const getLinks = (pattern: string | RegExp, caseSensitive: boolean) => {
+    const getLinks = (filterSettings: FilterSettings) => {
+        const { pattern, useRegex, ignoreCase, removeDuplicates } = filterSettings;
         const linkElements = document.getElementsByTagName("a");
-        let links = [];
+        let links = [] as string[];
         for (let i = 0; i < linkElements.length; i++) {
             links.push(linkElements[i].href);
         }
-        const set = new Set(links);
-        const matchingLinks = [...set].filter((link) => {
-            if (typeof pattern == "string") {
-                if (caseSensitive) {
-                    return link.includes(pattern);
-                } else {
+        if (removeDuplicates) {
+            const set = new Set(links);
+            links = [...set];
+        }
+        const matchingLinks = links.filter((link) => {
+            if (useRegex) {
+                return link.match(RegExp(pattern, `${ignoreCase ? "i" : ""}`));
+            } else {
+                if (ignoreCase) {
                     return link.toLowerCase().includes(pattern.toLowerCase());
+                } else {
+                    return link.includes(pattern);
                 }
             }
-            return link.match(pattern);
         });
         return matchingLinks;
     };
@@ -31,11 +37,11 @@ interface FilterSettings {
         });
     };
 
-    browser.runtime.onMessage.addListener((message) => {
-        const { command, pattern, useRegex, caseSensitive } = message;
-        localStorage.setItem("filter", JSON.stringify({ pattern, useRegex, caseSensitive }));
-        if (command === "getLinks") {
-            sendLinks(getLinks(useRegex ? new RegExp(pattern) : pattern, caseSensitive));
+    browser.runtime.onMessage.addListener((message: { command: string; filterSettings: FilterSettings }) => {
+        if (message.command == "getLinks") {
+            const { filterSettings } = message;
+            localStorage.setItem("filter", JSON.stringify(filterSettings));
+            sendLinks(getLinks(filterSettings));
         }
     });
 

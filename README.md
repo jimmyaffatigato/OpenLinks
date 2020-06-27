@@ -1,6 +1,6 @@
-# <img alt="OpenLinks" src="https://raw.githubusercontent.com/jimmyaffatigato/OpenLinks/master/icons/links-icon-48.png" width="32" /> OpenLinks
+# <img alt="OpenLinks" src="https://raw.githubusercontent.com/jimmyaffatigato/OpenLinks/default/icons/links-icon-48.png" width="32" /> OpenLinks
 
-⛓️ Open Links is a Firefox extension for opening a lot of links at once ⛓️  
+⛓️ OpenLinks is a Firefox extension for opening a lot of links at once ⛓️  
 Based on [an idea](https://www.reddit.com/r/SomebodyMakeThis/comments/hfjgew/smt_selective_mass_link_opener_for_firefox/) by [/u/ConsolesQuiteAnnoyMe](https://www.reddit.com/user/ConsolesQuiteAnnoyMe).
 
 - Lists all of the links on a page.
@@ -13,13 +13,13 @@ Click "Add to Firefox" at https://addons.mozilla.org/en-US/firefox/addon/openlin
 
 ## Instructions
 
-Click the <img alt="OpenLinks" src="https://raw.githubusercontent.com/jimmyaffatigato/OpenLinks/master/icons/links-icon-32.png" width="16" /> OpenLinks icon in your browser's toolbar. The resulting popup window will list all of the links in the active tab. This is often A LOT of links. Use the filter to avoid potentially opening hundreds of tabs at once.
+Click the <img alt="OpenLinks" src="https://raw.githubusercontent.com/jimmyaffatigato/OpenLinks/default/icons/links-icon-48.png" width="16" /> OpenLinks icon in your browser's toolbar. The resulting popup window will list all of the links in the active tab. This is often A LOT of links. Use the filter to avoid potentially opening hundreds of tabs at once.
 
 ### Filter
 
-When "Use Regex" is unchecked, the filter matches each link that contains the input string. The "Case Sensitive" checkbox determines whether the search should match case. The case of the links in the resulting list is not affected.
+When "Use Regex" is unchecked, the filter matches each link that contains the input string. When "Use Regex" is checked, the filter's input will be interpreted as a regular expression using Firefox's built-in [`RegExp`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions) object.
 
-When "Use Regex" is checked, the filter's input will be interpreted as a regular expression using Firefox's built-in `RegExp` object. "Case Sensitive" is ignored.
+The "Ignore Case" checkbox determines whether or not the search should match case. The case of the links in the resulting list is not affected.
 
 ### Opening Links
 
@@ -51,7 +51,11 @@ Without NPM:
 
 `bash build/build.sh`
 
-Compiles necessary files into `build/dist`. Creates a `.xpi` file in `build` titled with the name and version from `src/manifest.json`.
+This script will:
+
+- Compile `.js` files from `.ts` source.
+- Copy add-on files into `./build/dist`.
+- Package the contents of `./build/dist` into an `.xpi` file using the name and version from `./src/manifest.json`.
 
 Note: Firefox will reject the created file because it is not signed by Mozilla. Experimental builds can be loaded as a [temporary add-on](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/) in `about:debugging#/runtime/this-firefox`.
 
@@ -63,7 +67,8 @@ I haven't tried building this on Windows, but the Linux process _might_ work in 
 
 ## TODO
 
-- Add persistent options.
 - Add a warning when opening way too many links.
 - Make it less ugly.
 - Cross platform build.
+- Chrome version.
+- Transition from `localStorage` to `browser.storage`.

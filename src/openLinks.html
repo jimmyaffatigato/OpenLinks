@@ -7,10 +7,13 @@
         <div id="openLinks">
             <div id="topBar">
                 <div id="topLeft">
-                    <img src="icons/links.svg" />
+                    <img id="logo" src="icons/links.svg" />
                     <button id="goButton">
                         OpenLinks
                     </button>
+                </div>
+                <div id="topRight">
+                    <a id="version"></a>
                 </div>
             </div>
             <div id="filter">
@@ -18,14 +21,20 @@
                     Filter:
                     <input id="patternInput" />
                 </label>
-                <label>
-                    <input id="useRegex" type="checkbox" />
-                    Use Regex
-                </label>
-                <label>
-                    <input id="caseSensitive" type="checkbox" />
-                    Case Sensitive
-                </label>
+                <div id="filterSettings">
+                    <label>
+                        <input id="useRegex" type="checkbox" />
+                        Use Regex
+                    </label>
+                    <label>
+                        <input id="ignoreCase" type="checkbox" />
+                        Ignore Case
+                    </label>
+                    <label>
+                        <input id="removeDuplicates" type="checkbox" />
+                        Remove Duplicates
+                    </label>
+                </div>
             </div>
             <div id="linkList">
                 <p id="linkCount">Found 0 links</p>
