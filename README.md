@@ -61,7 +61,7 @@ Note: Firefox will reject the created file because it is not signed by Mozilla. 
 
 ### Windows
 
-I haven't tried building this on Windows, but the Linux process _might_ work in Powershell. Presumably, `jq` and `tsc` would need to be accessible in PATH.
+I haven't tried building this on Windows, but the Linux process _might_ work in Powershell with bash on WSL. Presumably, `jq` and `tsc` would need to be accessible in PATH.
 
 ---
 
