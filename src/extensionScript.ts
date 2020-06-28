@@ -14,14 +14,14 @@ const removeDuplicatesCheckbox = document.getElementById("removeDuplicates") as 
 const version = document.getElementById("version") as HTMLAnchorElement;
 const linkCountNumber = document.getElementById("linkCountNumber") as HTMLSpanElement;
 const plural = document.getElementById("plural") as HTMLSpanElement;
+const linksElement = document.getElementById("links");
 
 // Manifest
 const manifest = browser.runtime.getManifest();
 version.textContent = `v${manifest.version}`;
 version.href = manifest.homepage_url;
 
-let links = [];
-
+// Functions
 const openLinks = (links: string[]) => {
     links.forEach((link) => {
         browser.tabs.create({ url: link, active: false });
@@ -64,14 +64,42 @@ const pollLinks = (): void => {
                 linkCountNumber.textContent = `${response.links.length}`;
                 linkCountNumber.style.color = `#${r.toString(16).padStart(2, "0")}0000`;
                 plural.textContent = `${response.links.length !== 1 ? "s" : ""}`;
-                document.getElementById("links").innerHTML = response.links
-                    .map((link: string) => {
-                        return `<a class="link" title="${link}" href="${link}" target="_blank">${link}</a>`;
-                    })
-                    .join("\n");
+
+                while (linksElement.children.length > 0) {
+                    linksElement.firstChild.remove();
+                }
+
+                links.forEach((link) => {
+                    const linkElement = document.createElement("a");
+                    linkElement.className = "link";
+                    linkElement.textContent = link;
+                    linkElement.href = link;
+                    linkElement.title = link;
+                    linkElement.target = "_blank";
+                    linksElement.appendChild(linkElement);
+                });
             });
     });
 };
+
+// Event Listeners
+const handleFilterChange = () => {
+    saveFilter();
+    pollLinks();
+};
+
+openLinksButton.addEventListener("click", () => {
+    openLinks(links);
+});
+
+patternInput.addEventListener("input", handleFilterChange);
+useRegexCheckbox.addEventListener("change", handleFilterChange);
+ignoreCaseCheckbox.addEventListener("change", handleFilterChange);
+removeDuplicatesCheckbox.addEventListener("change", handleFilterChange);
+
+// Main
+let links = [];
+
 browser.tabs.executeScript({ file: "scripts/openLinks.js" }).then(() => {
     browser.tabs.query({ active: true, currentWindow: true }).then((tabs: browser.tabs.Tab[]) => {
         const tab = tabs[0];
@@ -90,24 +118,4 @@ browser.tabs.executeScript({ file: "scripts/openLinks.js" }).then(() => {
                 pollLinks();
             });
     });
-});
-
-openLinksButton.addEventListener("click", () => {
-    openLinks(links);
-});
-patternInput.addEventListener("input", () => {
-    saveFilter();
-    pollLinks();
-});
-useRegexCheckbox.addEventListener("change", () => {
-    saveFilter();
-    pollLinks();
-});
-ignoreCaseCheckbox.addEventListener("change", () => {
-    saveFilter();
-    pollLinks();
-});
-removeDuplicatesCheckbox.addEventListener("change", () => {
-    saveFilter();
-    pollLinks();
 });
