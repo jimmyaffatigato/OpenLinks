@@ -68,7 +68,5 @@ I haven't tried building this on Windows, but the Linux process _might_ work in 
 ## TODO
 
 - Add a warning when opening way too many links.
-- Make it less ugly.
 - Cross platform build.
 - Chrome version.
-- Transition from `localStorage` to `browser.storage`.

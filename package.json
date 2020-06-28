@@ -1,6 +1,6 @@
 {
   "name": "open-links",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Open Links is a Firefox extension for opening a lot of links at once",
   "scripts": {
     "build": "bash build/build.sh"
