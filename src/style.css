@@ -43,6 +43,10 @@ body {
     border-style: none;
 }
 
+#test {
+    color: white;
+}
+
 #version {
     color: white;
     text-decoration: none;
