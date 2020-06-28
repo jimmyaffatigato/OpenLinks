@@ -9,6 +9,7 @@ cp ../README.md ./dist/README.md
 cp ../LICENSE ./dist/LICENSE
 cp ../src/manifest.json ./dist/manifest.json
 cp ../src/openLinks.html ./dist/openLinks.html
+cp ../src/background.html ./dist/background.html
 cp ../src/style.css ./dist/style.css
 mkdir ./dist/scripts
 tsc --build ../src/tsconfig.json

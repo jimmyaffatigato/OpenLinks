@@ -9,11 +9,13 @@ Based on [an idea](https://www.reddit.com/r/SomebodyMakeThis/comments/hfjgew/smt
 
 ## Installation
 
-Click "Add to Firefox" at https://addons.mozilla.org/en-US/firefox/addon/openlinks/
+Click "Add to Firefox" at https://addons.mozilla.org/en-US/firefox/addon/openlinks/ to install the most recent version with automatic updates.
+
+Alternatively, you can install the current version or any previous version from the [release page](https://github.com/jimmyaffatigato/OpenLinks/releases). This installation method does not enable automatic updates.
 
 ## Instructions
 
-Click the <img alt="OpenLinks" src="https://raw.githubusercontent.com/jimmyaffatigato/OpenLinks/default/icons/links-icon-48.png" width="16" /> OpenLinks icon in your browser's toolbar. The resulting popup window will list all of the links in the active tab. This is often A LOT of links. Use the filter to avoid potentially opening hundreds of tabs at once.
+Click the <img alt="OpenLinks" src="https://raw.githubusercontent.com/jimmyaffatigato/OpenLinks/default/icons/links-icon-48.png" width="16" /> OpenLinks icon in your browser's toolbar. The resulting popup window will list all of the links in the active tab. This is often **A LOT** of links. Use the filter to avoid potentially opening hundreds of tabs at once.
 
 ### Filter
 
@@ -22,6 +24,8 @@ When "Use Regex" is unchecked, the filter matches each link that contains the in
 The "Ignore Case" checkbox determines whether or not the search should match case. The case of the links in the resulting list is not affected.
 
 ### Opening Links
+
+Click on any link in the list to open it in a new tab. Primary click will immediately switch to the new tab. Middle click will open it in the background.
 
 Click "OpenLinks" to open **every** link in the list in new tabs. Your browser will probably crash if you try to open too many at once. So don't do that. 🤷
 
@@ -41,7 +45,7 @@ This is the first browser extension I have written. It's very much a learning ex
 
 ### Linux
 
-Requires `jq` and `tsc`.
+Requires [`jq`](https://stedolan.github.io/jq/) and [`tsc`](https://www.typescriptlang.org/).
 
 With NPM:
 
@@ -61,12 +65,16 @@ Note: Firefox will reject the created file because it is not signed by Mozilla. 
 
 ### Windows
 
-I haven't tried building this on Windows, but the Linux process _might_ work in Powershell. Presumably, `jq` and `tsc` would need to be accessible in PATH.
+I haven't tried building this on Windows, but the Linux process _might_ work in Powershell with bash on WSL. Presumably, `jq` and `tsc` would need to be accessible in PATH.
 
 ---
 
-## TODO
+## Planned Features
 
-- Add a warning when opening way too many links.
+- Better design.
+- Warning when opening way too many links.
+- Individual select/deselect on links.
+- Bookmark links without opening them first.
+- Catch duplicate pages with different hashes
 - Cross platform build.
 - Chrome version.
