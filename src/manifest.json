@@ -12,6 +12,9 @@
     "48": "../icons/links-icon-48.png"
   },
   "permissions": ["activeTab", "storage"],
+  "background": {
+    "scripts": ["scripts/background.js"]
+  },
   "browser_action": {
     "default_icon": "../icons/links-icon-32.png",
     "default_title": "OpenLinks",
