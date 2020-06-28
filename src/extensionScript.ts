@@ -66,7 +66,7 @@ const pollLinks = (): void => {
                 plural.textContent = `${response.links.length !== 1 ? "s" : ""}`;
                 document.getElementById("links").innerHTML = response.links
                     .map((link: string) => {
-                        return `<a class="link" title="${link}" href="${link}">${link}</a>`;
+                        return `<a class="link" title="${link}" href="${link}" target="_blank">${link}</a>`;
                     })
                     .join("\n");
             });
@@ -98,7 +98,6 @@ openLinksButton.addEventListener("click", () => {
 patternInput.addEventListener("input", () => {
     saveFilter();
     pollLinks();
-    console.log("input");
 });
 useRegexCheckbox.addEventListener("change", () => {
     saveFilter();
