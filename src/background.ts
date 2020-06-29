@@ -1,21 +1,20 @@
 browser.browserAction.setBadgeBackgroundColor({ color: "#ffffff" });
 
-const backgroundGetFilter = async (): Promise<FilterSettings> => {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    const tab = tabs[0];
+export const getFilter = async (): Promise<FilterSettings> => {
+    const tab = await getActiveTab();
     const result = await browser.storage.local.get({
         [String(tab.id)]: { pattern: "", useRegex: false, ignoreCase: false, removeDuplicates: false },
     });
     return result[String(tab.id)];
 };
 
-const backgroundGetActiveTab = async (): Promise<browser.tabs.Tab> => {
+export const getActiveTab = async (): Promise<browser.tabs.Tab> => {
     const tabs = await browser.tabs.query({ active: true, currentWindow: true });
     return tabs[0];
 };
 
-const backgroundGetLinks = async (filterSettings: FilterSettings): Promise<string[]> => {
-    const tab = await backgroundGetActiveTab();
+export const getLinks = async (filterSettings: FilterSettings): Promise<string[]> => {
+    const tab = await getActiveTab();
     const response = await browser.tabs.sendMessage(tab.id, {
         command: "getLinks",
         filterSettings,
@@ -23,7 +22,7 @@ const backgroundGetLinks = async (filterSettings: FilterSettings): Promise<strin
     return response.links;
 };
 
-const backgroundUpdateBadge = (links: string[]) => {
+export const updateBadge = (links: string[]): void => {
     let r = Math.floor((links.length / 50) * 255);
     if (r > 255) {
         r = 255;
@@ -32,8 +31,11 @@ const backgroundUpdateBadge = (links: string[]) => {
     browser.browserAction.setBadgeText({ text: String(links.length) });
 };
 
-browser.tabs.onUpdated.addListener(() => {
-    browser.tabs.executeScript({ file: "scripts/openLinks.js" }).then(() => {
-        backgroundGetFilter().then(backgroundGetLinks).then(backgroundUpdateBadge);
-    });
-});
+browser.tabs.onUpdated.addListener(
+    async (): Promise<void> => {
+        await browser.tabs.executeScript({ file: "scripts/content.js" });
+        const filterSettings = await getFilter();
+        const links = await getLinks(filterSettings);
+        updateBadge(links);
+    }
+);

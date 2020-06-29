@@ -5,6 +5,8 @@ interface FilterSettings {
     removeDuplicates: boolean;
 }
 
+import { getActiveTab, getFilter, getLinks, updateBadge } from "./background.js";
+
 // Elements
 const openLinksButton = document.getElementById("goButton") as HTMLButtonElement;
 const patternInput = document.getElementById("patternInput") as HTMLInputElement;
@@ -16,9 +18,17 @@ const linkCountNumber = document.getElementById("linkCountNumber") as HTMLSpanEl
 const plural = document.getElementById("plural") as HTMLSpanElement;
 const linksElement = document.getElementById("links") as HTMLDivElement;
 
+const buildNo = (): string => {
+    const now = new Date();
+    return `${now.getFullYear().toString().slice(2)}${(now.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}${now.getDate()}${now.getHours()}${now.getMinutes()}`;
+};
+
 // Manifest
 const manifest = browser.runtime.getManifest();
 version.textContent = `v${manifest.version}`;
+version.title = `Version ${manifest.version}, Build ${buildNo()}`;
 version.href = manifest.homepage_url;
 
 // Tab Functions
@@ -28,30 +38,7 @@ const openLinks = (links: string[]) => {
     });
 };
 
-const getLinks = async (filterSettings: FilterSettings): Promise<string[]> => {
-    return getActiveTab().then(async (tab) => {
-        const response = await browser.tabs.sendMessage(tab.id, {
-            command: "getLinks",
-            filterSettings,
-        });
-        return response.links;
-    });
-};
-
-const getActiveTab = async (): Promise<browser.tabs.Tab> => {
-    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
-    return tabs[0];
-};
-
 // Filter Functions
-const getFilter = async (): Promise<FilterSettings> => {
-    const tab = await getActiveTab();
-    const result = await browser.storage.local.get({
-        [String(tab.id)]: { pattern: "", useRegex: false, ignoreCase: false, removeDuplicates: false },
-    });
-    return result[String(tab.id)];
-};
-
 const loadFilter = (filterSettings: FilterSettings): FilterSettings => {
     const { pattern, useRegex, ignoreCase, removeDuplicates } = filterSettings
         ? filterSettings
@@ -63,11 +50,10 @@ const loadFilter = (filterSettings: FilterSettings): FilterSettings => {
     return filterSettings;
 };
 
-const saveFilter = (filterSettings: FilterSettings) => {
-    getActiveTab().then((tab) => {
-        browser.storage.local.set({
-            [String(tab.id)]: filterSettings,
-        });
+const saveFilter = async (filterSettings: FilterSettings): Promise<void> => {
+    const tab = await getActiveTab();
+    browser.storage.local.set({
+        [String(tab.id)]: filterSettings,
     });
 };
 
@@ -102,15 +88,6 @@ const updateLinksElement = (links: string[]) => {
     updateBadge(links);
 };
 
-const updateBadge = (links: string[]) => {
-    let r = Math.floor((links.length / 50) * 255);
-    if (r > 255) {
-        r = 255;
-    }
-    browser.browserAction.setBadgeTextColor({ color: `#${r.toString(16).padStart(2, "0")}0000` });
-    browser.browserAction.setBadgeText({ text: String(links.length) });
-};
-
 const handleFilterChange = async () => {
     const filterSettings = {
         pattern: patternInput.value,
@@ -135,6 +112,12 @@ ignoreCaseCheckbox.addEventListener("change", handleFilterChange);
 removeDuplicatesCheckbox.addEventListener("change", handleFilterChange);
 
 // Main
-getFilter().then(loadFilter).then(getLinks).then(updateLinksElement);
+const main = async () => {
+    const filterSettings = await getFilter();
+    loadFilter(filterSettings);
+    const links = await getLinks(filterSettings);
+    updateLinksElement(links);
+};
+main();
 
 export {};
