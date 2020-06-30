@@ -8,7 +8,7 @@ interface FilterSettings {
 import { getActiveTab, getFilter, getLinks, updateBadge } from "./background.js";
 
 // Elements
-const openLinksButton = document.getElementById("goButton") as HTMLButtonElement;
+const openLinksButton = document.getElementById("openLinksButton") as HTMLButtonElement;
 const patternInput = document.getElementById("patternInput") as HTMLInputElement;
 const useRegexCheckbox = document.getElementById("useRegex") as HTMLInputElement;
 const ignoreCaseCheckbox = document.getElementById("ignoreCase") as HTMLInputElement;

@@ -4,7 +4,6 @@ interface FilterSettings {
     ignoreCase: boolean;
     removeDuplicates: boolean;
 }
-
 // Run once
 if (!window["hasRun"]) {
     window["hasRun"] = true;
@@ -32,12 +31,12 @@ if (!window["hasRun"]) {
         });
         return matchingLinks;
     };
-    browser.runtime.onMessage.addListener(
-        (message: { command: string; filterSettings: FilterSettings }, sender, sendResponse) => {
-            if (message.command == "getLinks") {
-                const { filterSettings } = message;
-                sendResponse({ links: getLinks(filterSettings) });
-            }
+    browser.runtime.onMessage.addListener((message: { command: string; filterSettings: FilterSettings }) => {
+        if (message.command == "getLinks") {
+            const { filterSettings } = message;
+            return new Promise((res) => {
+                res({ links: getLinks(filterSettings) });
+            });
         }
-    );
+    });
 }

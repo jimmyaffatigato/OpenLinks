@@ -1,22 +1,22 @@
 #!/bin/bash
-cd "${0%/*}"
 NAME=`jq .name < ../src/manifest.json | sed 's/"//g'`
 VERSION=`jq .version < ../src/manifest.json | sed 's/"//g'`
-rm $NAME*.xpi
-rm -rf ./dist
-mkdir dist
-cp ../README.md ./dist/README.md
-cp ../LICENSE ./dist/LICENSE
-cp ../src/manifest.json ./dist/manifest.json
-cp ../src/openLinks.html ./dist/openLinks.html
-cp ../src/background.html ./dist/background.html
-cp ../src/style.css ./dist/style.css
-mkdir ./dist/scripts
-tsc --build ../src/tsconfig.json
-mkdir ./dist/icons
-cp ../icons/links-icon-32.png ./dist/icons/links-icon-32.png
-cp ../icons/links-icon-48.png ./dist/icons/links-icon-48.png
-cp ../icons/links.svg ./dist/icons/links.svg
-cd dist
+[ -f $NAME*.xpi ] && rm $NAME*.xpi
+[ -d $NAME-*/ ] && rm -rf $NAME-*/
+mkdir $NAME-$VERSION
+cp ../README.md ./$NAME-$VERSION/README.md
+cp ../LICENSE ./$NAME-$VERSION/LICENSE
+cp ../src/manifest.json ./$NAME-$VERSION/manifest.json
+cp ../src/openLinks.html ./$NAME-$VERSION/openLinks.html
+cp ../src/background.html ./$NAME-$VERSION/background.html
+cp ../src/style.css ./$NAME-$VERSION/style.css
+mkdir ./$NAME-$VERSION/scripts
+tsc --project ../src/tsconfig.json --outDir ./$NAME-$VERSION/scripts
+cp ../node_modules/webextension-polyfill/dist/browser-polyfill.min.js ./$NAME-$VERSION/scripts/browser-polyfill.min.js
+mkdir ./$NAME-$VERSION/icons
+cp ../icons/links-icon-32.png ./$NAME-$VERSION/icons/links-icon-32.png
+cp ../icons/links-icon-48.png ./$NAME-$VERSION/icons/links-icon-48.png
+cp ../icons/links.svg ./$NAME-$VERSION/icons/links.svg
+cd $NAME-$VERSION
 zip -r ../$NAME-$VERSION.zip *
 mv ../$NAME-$VERSION.zip ../$NAME-$VERSION.xpi
