@@ -4,19 +4,16 @@
   "version": "1.0.6",
   "description": "Opens a lot of links at once.",
   "homepage_url": "https://github.com/jimmyaffatigato/OpenLinks",
-  "developer": {
-    "name": "Jimmy Affatigato",
-    "url": "https://github.com/jimmyaffatigato"
-  },
+  "author": "Jimmy Affatigato",
   "icons": {
-    "48": "../icons/links-icon-48.png"
+    "48": "icons/links-icon-48.png"
   },
   "permissions": ["activeTab", "storage", "<all_urls>"],
   "background": {
     "page": "background.html"
   },
   "browser_action": {
-    "default_icon": "../icons/links-icon-32.png",
+    "default_icon": "icons/links-icon-32.png",
     "default_title": "OpenLinks",
     "default_popup": "openLinks.html"
   }

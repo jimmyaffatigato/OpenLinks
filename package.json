@@ -3,7 +3,7 @@
   "version": "1.0.6",
   "description": "Open Links is a Firefox extension for opening a lot of links at once",
   "scripts": {
-    "build": "bash build/build.sh"
+    "build": "cd build; bash build.sh"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/jimmyaffatigato/OpenLinks",
   "devDependencies": {
-    "@types/firefox-webext-browser": "^78.0.0"
+    "@types/firefox-webext-browser": "^78.0.0",
+    "webextension-polyfill": "^0.6.0"
   }
 }

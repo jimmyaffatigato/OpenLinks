@@ -1,4 +1,6 @@
-browser.browserAction.setBadgeBackgroundColor({ color: "#ffffff" });
+browser.browserAction.setBadgeBackgroundColor({
+    color: browser.browserAction.setBadgeTextColor ? "#ffffff" : "#000000",
+});
 
 export const getFilter = async (): Promise<FilterSettings> => {
     const tab = await getActiveTab();
@@ -27,15 +29,19 @@ export const updateBadge = (links: string[]): void => {
     if (r > 255) {
         r = 255;
     }
-    browser.browserAction.setBadgeTextColor({ color: `#${r.toString(16).padStart(2, "0")}0000` });
+    browser.browserAction.setBadgeTextColor
+        ? browser.browserAction.setBadgeTextColor({ color: `#${r.toString(16).padStart(2, "0")}0000` })
+        : {};
     browser.browserAction.setBadgeText({ text: String(links.length) });
 };
 
-browser.tabs.onUpdated.addListener(
-    async (): Promise<void> => {
-        await browser.tabs.executeScript({ file: "scripts/content.js" });
-        const filterSettings = await getFilter();
-        const links = await getLinks(filterSettings);
-        updateBadge(links);
-    }
-);
+const update = async (): Promise<void> => {
+    await browser.tabs.executeScript({ file: "scripts/browser-polyfill.min.js" });
+    await browser.tabs.executeScript({ file: "scripts/content.js" });
+    const filterSettings = await getFilter();
+    const links = await getLinks(filterSettings);
+    updateBadge(links);
+};
+
+browser.tabs.onUpdated.addListener(update);
+browser.tabs.onActivated.addListener(update);
