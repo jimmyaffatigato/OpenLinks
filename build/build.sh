@@ -19,4 +19,4 @@ cp ../icons/links-icon-48.png ./$NAME-$VERSION/icons/links-icon-48.png
 cp ../icons/links.svg ./$NAME-$VERSION/icons/links.svg
 cd $NAME-$VERSION
 zip -r ../$NAME-$VERSION.zip *
-mv ../$NAME-$VERSION.zip ../$NAME-$VERSION.xpi
+cp ../$NAME-$VERSION.zip ../$NAME-$VERSION.xpi
